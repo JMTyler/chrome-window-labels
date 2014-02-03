@@ -1,0 +1,16 @@
+{
+	"name": "Window Labels",
+	"version": "1.0.0",
+	"description": "",
+	"icons": {},
+	"browser_action": {
+		"default_icon": "icon-24.png",
+		"default_popup": "popup.html"
+	},
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": true
+	},
+	"permissions": [],
+	"manifest_version": 2
+}
