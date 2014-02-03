@@ -1,0 +1,6 @@
+A Chrome extension.
+For Chrome users who separate their tabs into multiple windows based on subject matter. (i.e. a "work" window, a "reddit tabs" window, a "check this stuff out when you take a break" window, etc.)
+
+Allows the user to give each Chrome window a short label.  When a different application (or another Chrome window) is focused, each unfocused window will display the label clearly when previewed from the Windows taskbar.
+
+Unsure how application preview/thumbnails may or may not work on other operating systems.
