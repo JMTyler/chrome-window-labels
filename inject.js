@@ -1,6 +1,8 @@
 
 // Don't judge.
 
+console.log('injecting a new label');
+
 var myDiv = document.createElement('div');
 myDiv.id = 'jared_div';
 myDiv.style.backgroundColor = 'black';
@@ -18,7 +20,7 @@ myDiv.style.borderTopColor = '#DDD';
 myDiv.style.borderLeftColor = '#DDD';
 myDiv.style.borderBottomColor = '#888';
 myDiv.style.borderRightColor = '#888';
-myDiv.style.zIndex = '99999999999999999999999';
+myDiv.style.zIndex = '100000000000000000000000';
 
 var mySpan = document.createElement('span');
 mySpan.innerHTML = "TEST";

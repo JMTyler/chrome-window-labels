@@ -5,14 +5,14 @@ chrome.windows.onFocusChanged.addListener(function(focusedWindowId)
 		console.log('disabled');
 		return;
 	}
-	
+
 	// We can't do anything if we don't know what the last window was yet.
 	if (typeof localStorage['last_window'] == 'undefined') {
 		localStorage['last_window'] = focusedWindowId;
 		console.log('no last window... bailing');
 		return;
 	}
-	
+
 	// Let's avoid inking out our view (on another monitor, for instance) if we're switching outside Chrome.
 	if (focusedWindowId == -1) {
 		console.log('closed a window and ended up OUTSIDE Chrome... bailing', blurredWindowId);
@@ -28,7 +28,7 @@ chrome.windows.onFocusChanged.addListener(function(focusedWindowId)
 		console.log('switched back to the SAME window... bailing');
 		return;
 	}
-	
+
 	chrome.windows.get(focusedWindowId, {populate: true}, function(focusedWindow)
 	{
 		var tabs = focusedWindow.tabs;
@@ -40,12 +40,12 @@ chrome.windows.onFocusChanged.addListener(function(focusedWindowId)
 			console.log('trying to blur after switching to devtools... bailing');
 			return;
 		}
-		
+
 		// Finally, let's get a hold of the previous (blurred) window and label it.
 		chrome.windows.get(blurredWindowId, {populate: true}, function(blurredWindow)
 		{
 			var i, blurredTab;
-			
+
 			// TODO: This was happening sometimes, but I think I fixed it.  We'll see.
 			if (typeof blurredWindow == 'undefined') {
 				localStorage['last_window'] = focusedWindowId;
@@ -56,21 +56,26 @@ chrome.windows.onFocusChanged.addListener(function(focusedWindowId)
 			for (i = 0; i < blurredWindow.tabs.length; i++) {
 				blurredTab = blurredWindow.tabs[i];
 
+				// TODO: I think this can be changed to use .query()
 				// Nah dawg, this one ain't it.
 				if (!blurredTab.active) {
 					continue;
 				}
-				
+
 				console.log('aww yeah, let\'s do this sheeit', blurredWindow.id, blurredTab.id, blurredWindow.type, blurredTab.url);
 
 				// Found it!! Inject our script onto the active tab of the freshly blurred window.
 				chrome.tabs.executeScript(blurredTab.id, {file: 'inject.js'});
-
-				// And of course, inform future-us that our current window is their past window.
-				localStorage['last_window'] = focusedWindowId;
 			}
 		});
-		
-		// TODO: Don't forget to REMOVE the label from the newly focused window, if there is one.
+
+		// Let's now quickly remove the label from the window we're focusing.
+		chrome.tabs.query({lastFocusedWindow: true, active: true}, function(focusedTab) {
+			focusedTab = focusedTab[0];
+			chrome.tabs.executeScript(focusedTab.id, {file: 'withdraw.js'});
+		});
+
+		// And of course, inform future-us that our current window is their past window.
+		localStorage['last_window'] = focusedWindowId;
 	});
 });
