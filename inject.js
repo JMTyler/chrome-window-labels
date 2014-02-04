@@ -13,8 +13,6 @@ myDiv.style.color = 'white';
 myDiv.style.fontWeight = 'bold';
 myDiv.style.fontFamily = 'monospace';
 myDiv.style.textAlign = 'center';
-myDiv.style.top = '239px';
-myDiv.style.left = '443px';
 myDiv.style.position = 'fixed';
 myDiv.style.borderTopColor = '#DDD';
 myDiv.style.borderLeftColor = '#DDD';
@@ -30,3 +28,6 @@ mySpan.style.fontSize = '158px';
 
 myDiv.appendChild(mySpan);
 document.body.appendChild(myDiv);
+
+myDiv.style.top = (window.innerHeight - myDiv.clientHeight) / 2 + 'px';
+myDiv.style.left = (window.innerWidth - myDiv.clientWidth) / 2 + 'px';
